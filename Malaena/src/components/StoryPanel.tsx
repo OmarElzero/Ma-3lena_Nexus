@@ -1,10 +1,12 @@
-import { ChevronLeft, ChevronRight, List, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+
 interface Scene {
   id: number;
   title: string;
   content: string;
   sceneType: 'pyramid' | 'atom' | 'dna' | 'solar-system';
 }
+
 interface StoryPanelProps {
   scenes: Scene[];
   currentScene: number;
@@ -28,21 +30,27 @@ export function StoryPanel({ scenes, currentScene, onSceneChange, isOpen, onTogg
 
   return (
     <>
-      <button
-        onClick={onToggle}
-        className="fixed top-1/2 right-4 transform -translate-y-1/2 z-50 bg-[#415A77] hover:bg-[#778DA9] rounded-full p-3 transition-all duration-300 shadow-lg"
+      <div
+        className={`
+          fixed top-0 right-0 h-full w-96 bg-[#1B263B] border-l border-[#415A77] z-40
+          transform transition-transform duration-300 ease-in-out
+          ${isOpen ? 'translate-x-0' : 'translate-x-full'}
+        `}
       >
-        {isOpen ? <X className="w-5 h-5 text-[#E0E1DD]" /> : <List className="w-5 h-5 text-[#E0E1DD]" />}
-      </button>
-
-      <div className={`
-        fixed top-0 right-0 h-full w-96 bg-[#1B263B] border-l border-[#415A77] z-40 transform transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : 'translate-x-full'}
-      `}>
         <div className="flex flex-col h-full">
-          <div className="p-6 border-b border-[#415A77]">
-            <h3 className="text-lg font-semibold text-[#E0E1DD] mb-2">Lesson Scenes</h3>
-            <p className="text-sm text-[#778DA9]">Scene {currentScene + 1} of {scenes.length}</p>
+          <div className="p-6 border-b border-[#415A77] flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-[#E0E1DD]">Lesson Scenes</h3>
+              <p className="text-sm text-[#778DA9]">
+                Scene {currentScene + 1} of {scenes.length}
+              </p>
+            </div>
+            <button
+              onClick={onToggle}
+              className="p-2 rounded-lg hover:bg-[#415A77] transition-colors"
+            >
+              <X className="w-5 h-5 text-[#E0E1DD]" />
+            </button>
           </div>
           <div className="flex-1 overflow-y-auto p-4">
             <div className="space-y-3">
@@ -54,8 +62,7 @@ export function StoryPanel({ scenes, currentScene, onSceneChange, isOpen, onTogg
                     w-full text-left p-4 rounded-lg transition-all duration-200
                     ${index === currentScene 
                       ? 'bg-[#415A77] border-l-4 border-[#778DA9]' 
-                      : 'bg-[#0D1B2A] hover:bg-[#415A77]'
-                    }
+                      : 'bg-[#0D1B2A] hover:bg-[#415A77]'}
                   `}
                 >
                   <div className="flex items-center justify-between mb-2">
@@ -85,8 +92,7 @@ export function StoryPanel({ scenes, currentScene, onSceneChange, isOpen, onTogg
                   flex items-center px-4 py-2 rounded-lg transition-colors
                   ${currentScene === 0 
                     ? 'bg-[#415A77] opacity-50 cursor-not-allowed' 
-                    : 'bg-[#415A77] hover:bg-[#778DA9]'
-                  }
+                    : 'bg-[#415A77] hover:bg-[#778DA9]'}
                 `}
               >
                 <ChevronLeft className="w-4 h-4 mr-2 text-[#E0E1DD]" />
@@ -100,8 +106,7 @@ export function StoryPanel({ scenes, currentScene, onSceneChange, isOpen, onTogg
                   flex items-center px-4 py-2 rounded-lg transition-colors
                   ${currentScene === scenes.length - 1 
                     ? 'bg-[#415A77] opacity-50 cursor-not-allowed' 
-                    : 'bg-[#415A77] hover:bg-[#778DA9]'
-                  }
+                    : 'bg-[#415A77] hover:bg-[#778DA9]'}
                 `}
               >
                 <span className="text-sm text-[#E0E1DD]">Next</span>
@@ -111,6 +116,7 @@ export function StoryPanel({ scenes, currentScene, onSceneChange, isOpen, onTogg
           </div>
         </div>
       </div>
+
       {isOpen && (
         <div 
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30"
