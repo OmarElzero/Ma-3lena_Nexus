@@ -55,7 +55,6 @@ export function LessonViewer({
       utterance.pitch = 1.1;
       utterance.volume = isMuted ? 0 : 1;
 
-      // Highlight text as it's being spoken
       utterance.onboundary = (event) => {
         if (event.name === "word") {
           const words = text.split(" ");
@@ -69,7 +68,6 @@ export function LessonViewer({
       utterance.onend = () => {
         setIsPlaying(false);
         setHighlightedText("");
-        // Auto advance to next scene
         if (currentScene < scenes.length - 1) {
           setTimeout(() => {
             setCurrentScene((prev) => prev + 1);
@@ -122,7 +120,6 @@ export function LessonViewer({
 
   const renderHighlightedText = (text: string, highlighted: string) => {
     if (!highlighted) return text;
-
     const parts = text.split(new RegExp(`(${highlighted})`, "gi"));
     return parts.map((part, index) =>
       part.toLowerCase() === highlighted.toLowerCase() ? (
@@ -152,7 +149,7 @@ export function LessonViewer({
   return (
     <div
       ref={containerRef}
-      className={`min-h-screen bg-[#0D1B2A] relative ${
+      className={`min-h-screen  bg-[#0D1B2A] relative ${
         isFullscreen ? "fixed inset-0 z-50" : ""
       }`}
     >
@@ -166,10 +163,10 @@ export function LessonViewer({
               <ArrowLeft className="w-5 h-5 text-[#E0E1DD]" />
             </button>
             <div>
-              <h1 className="text-xl font-semibold text-[#E0E1DD]">
+              <h1 className="text-lg sm:text-xl font-semibold text-[#E0E1DD]">
                 {lessonTitle}
               </h1>
-              <p className="text-sm text-[#778DA9]">
+              <p className="text-xs sm:text-sm text-[#778DA9]">
                 Scene {currentScene + 1} of {scenes.length}:{" "}
                 {currentSceneData.title}
               </p>
@@ -183,14 +180,15 @@ export function LessonViewer({
           </button>
         </div>
       )}
-
       <div
-        className={`${isFullscreen ? "h-screen" : "h-[calc(100vh-80px)]"} flex`}
+        className={`${
+          isFullscreen ? "h-screen" : "h-[calc(100vh-80px)]"
+        } flex flex-col lg:flex-row`}
       >
         <div
           className={`${
-            isFullscreen ? "w-full" : "w-[calc(100%-34rem)]"
-          } p-6 relative`}
+            isFullscreen ? "w-full" : "w-full lg:w-[calc(100%-34rem)]"
+          } p-4 sm:p-6 relative`}
         >
           <div className="h-full relative">
             <Scene3D
@@ -213,75 +211,79 @@ export function LessonViewer({
             />
           </div>
         </div>
-
         {!isFullscreen && (
-          <div className="w-[34rem] p-6 bg-[#1B263B] border-l border-r border-[#415A77] overflow-y-auto">
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-bold text-[#E0E1DD] mb-4">
-                  {currentSceneData.title}
-                </h2>
+          <div className="w-full lg:w-[34rem] flex-1 flex flex-col bg-[#1B263B] border-t lg:border-t-0 lg:border-l lg:border-r border-[#415A77]">
+            <div className="p-4 sm:p-6 flex-1 overflow-y-auto">
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-xl sm:text-2xl font-bold text-[#E0E1DD] mb-4">
+                    {currentSceneData.title}
+                  </h2>
 
-                <div className="prose prose-invert max-w-none">
-                  <p className="text-[#E0E1DD] leading-relaxed text-lg">
-                    {renderHighlightedText(
-                      currentSceneData.content,
-                      highlightedText
-                    )}
-                  </p>
+                  <div className="prose prose-invert max-w-none">
+                    <p className="text-[#E0E1DD] leading-relaxed text-base sm:text-lg">
+                      {renderHighlightedText(
+                        currentSceneData.content,
+                        highlightedText
+                      )}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="bg-[#0D1B2A] rounded-lg p-4">
-                <div className="flex justify-between text-sm text-[#778DA9] mb-2">
-                  <span>Scene Progress</span>
-                  <span>
-                    {currentScene + 1} / {scenes.length}
-                  </span>
+                <div className="bg-[#0D1B2A] rounded-lg p-4">
+                  <div className="flex justify-between text-xs sm:text-sm text-[#778DA9] mb-2">
+                    <span>Scene Progress</span>
+                    <span>
+                      {currentScene + 1} / {scenes.length}
+                    </span>
+                  </div>
+                  <div className="w-full bg-[#415A77] rounded-full h-2">
+                    <div
+                      className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-500"
+                      style={{
+                        width: `${((currentScene + 1) / scenes.length) * 100}%`,
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className="w-full bg-[#415A77] rounded-full h-2">
-                  <div
-                    className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-500"
-                    style={{
-                      width: `${((currentScene + 1) / scenes.length) * 100}%`,
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <button
-                  onClick={() =>
-                    currentScene > 0 && handleSceneChange(currentScene - 1)
-                  }
-                  disabled={currentScene === 0}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    currentScene === 0
-                      ? "bg-[#415A77] opacity-50 cursor-not-allowed"
-                      : "bg-[#415A77] hover:bg-[#778DA9]"
-                  }`}
-                >
-                  <span className="text-[#E0E1DD] text-sm">Previous Scene</span>
-                </button>
+                <div className="flex justify-between">
+                  <button
+                    onClick={() =>
+                      currentScene > 0 && handleSceneChange(currentScene - 1)
+                    }
+                    disabled={currentScene === 0}
+                    className={`px-3 sm:px-4 py-2 rounded-lg transition-colors ${
+                      currentScene === 0
+                        ? "bg-[#415A77] opacity-50 cursor-not-allowed"
+                        : "bg-[#415A77] hover:bg-[#778DA9]"
+                    }`}
+                  >
+                    <span className="text-[#E0E1DD] text-xs sm:text-sm">
+                      Previous Scene
+                    </span>
+                  </button>
 
-                <button
-                  onClick={() =>
-                    currentScene < scenes.length - 1 &&
-                    handleSceneChange(currentScene + 1)
-                  }
-                  disabled={currentScene === scenes.length - 1}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    currentScene === scenes.length - 1
-                      ? "bg-[#415A77] opacity-50 cursor-not-allowed"
-                      : "bg-[#415A77] hover:bg-[#778DA9]"
-                  }`}
-                >
-                  <span className="text-[#E0E1DD] text-sm">Next Scene</span>
-                </button>
+                  <button
+                    onClick={() =>
+                      currentScene < scenes.length - 1 &&
+                      handleSceneChange(currentScene + 1)
+                    }
+                    disabled={currentScene === scenes.length - 1}
+                    className={`px-3 sm:px-4 py-2 rounded-lg transition-colors ${
+                      currentScene === scenes.length - 1
+                        ? "bg-[#415A77] opacity-50 cursor-not-allowed"
+                        : "bg-[#415A77] hover:bg-[#778DA9]"
+                    }`}
+                  >
+                    <span className="text-[#E0E1DD] text-xs sm:text-sm">
+                      Next Scene
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         )}
       </div>
-
       {!isFullscreen && (
         <StoryPanel
           scenes={scenes}
