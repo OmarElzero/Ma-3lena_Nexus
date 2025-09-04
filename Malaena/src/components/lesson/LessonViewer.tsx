@@ -1,4 +1,4 @@
-import{ useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Scene3D } from './Scene3D';
 import { StoryPanel } from '../StoryPanel';
 import { LessonControls } from '../LessonControls';
@@ -29,6 +29,7 @@ export function LessonViewer({ lessonTitle, scenes, onBack }: LessonViewerProps)
   
   const speechRef = useRef<SpeechSynthesisUtterance | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  
   const speakText = (text: string) => {
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
@@ -111,6 +112,7 @@ export function LessonViewer({ lessonTitle, scenes, onBack }: LessonViewerProps)
     setHighlightedText('');
     window.speechSynthesis.cancel();
   };
+  
   const renderHighlightedText = (text: string, highlighted: string) => {
     if (!highlighted) return text;
     
@@ -123,11 +125,13 @@ export function LessonViewer({ lessonTitle, scenes, onBack }: LessonViewerProps)
       ) : part
     );
   };
+  
   useEffect(() => {
     return () => {
       window.speechSynthesis.cancel();
     };
   }, []);
+  
   useEffect(() => {
     if (speechRef.current) {
       speechRef.current.volume = isMuted ? 0 : 1;
@@ -137,25 +141,28 @@ export function LessonViewer({ lessonTitle, scenes, onBack }: LessonViewerProps)
   const currentSceneData = scenes[currentScene];
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#0D1B2A] relative">
-      <div className="bg-[#1B263B] border-b border-[#415A77] p-4">
-        <div className="flex items-center">
-          <button
-            onClick={onBack}
-            className="mr-4 p-2 rounded-lg hover:bg-[#415A77] transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5 text-[#E0E1DD]" />
-          </button>
-          <div>
-            <h1 className="text-xl font-semibold text-[#E0E1DD]">{lessonTitle}</h1>
-            <p className="text-sm text-[#778DA9]">
-              Scene {currentScene + 1} of {scenes.length}: {currentSceneData.title}
-            </p>
+    <div ref={containerRef} className={`min-h-screen bg-[#0D1B2A] relative ${isFullscreen ? 'fixed inset-0 z-50' : ''}`}>
+      {!isFullscreen && (
+        <div className="bg-[#1B263B] border-b border-[#415A77] p-4">
+          <div className="flex items-center">
+            <button
+              onClick={onBack}
+              className="mr-4 p-2 rounded-lg hover:bg-[#415A77] transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5 text-[#E0E1DD]" />
+            </button>
+            <div>
+              <h1 className="text-xl font-semibold text-[#E0E1DD]">{lessonTitle}</h1>
+              <p className="text-sm text-[#778DA9]">
+                Scene {currentScene + 1} of {scenes.length}: {currentSceneData.title}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex h-[calc(100vh-80px)]">
-        <div className="flex-1 p-6 relative">
+      )}
+      
+      <div className={`${isFullscreen ? 'h-screen' : 'h-[calc(100vh-80px)]'} flex`}>
+        <div className={`${isFullscreen ? 'w-full' :'w-[calc(100%-34rem)]'} p-6 relative`}>
           <div className="h-full relative">
             <Scene3D
               sceneType={currentSceneData.sceneType}
@@ -177,66 +184,72 @@ export function LessonViewer({ lessonTitle, scenes, onBack }: LessonViewerProps)
             />
           </div>
         </div>
-        <div className="w-96 p-6 bg-[#1B263B] border-l border-r border-[#415A77] overflow-y-auto">
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold text-[#E0E1DD] mb-4">
-                {currentSceneData.title}
-              </h2>
-              
-              <div className="prose prose-invert max-w-none">
-                <p className="text-[#E0E1DD] leading-relaxed text-lg">
-                  {renderHighlightedText(currentSceneData.content, highlightedText)}
-                </p>
+        
+        {!isFullscreen && (
+          <div className="w-[34rem] p-6 bg-[#1B263B] border-l border-r border-[#415A77] overflow-y-auto">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-[#E0E1DD] mb-4">
+                  {currentSceneData.title}
+                </h2>
+                
+                <div className="prose prose-invert max-w-none">
+                  <p className="text-[#E0E1DD] leading-relaxed text-lg">
+                    {renderHighlightedText(currentSceneData.content, highlightedText)}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="bg-[#0D1B2A] rounded-lg p-4">
-              <div className="flex justify-between text-sm text-[#778DA9] mb-2">
-                <span>Scene Progress</span>
-                <span>{currentScene + 1} / {scenes.length}</span>
+              <div className="bg-[#0D1B2A] rounded-lg p-4">
+                <div className="flex justify-between text-sm text-[#778DA9] mb-2">
+                  <span>Scene Progress</span>
+                  <span>{currentScene + 1} / {scenes.length}</span>
+                </div>
+                <div className="w-full bg-[#415A77] rounded-full h-2">
+                  <div
+                    className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-500"
+                    style={{ width: `${((currentScene + 1) / scenes.length) * 100}%` }}
+                  />
+                </div>
               </div>
-              <div className="w-full bg-[#415A77] rounded-full h-2">
-                <div
-                  className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-500"
-                  style={{ width: `${((currentScene + 1) / scenes.length) * 100}%` }}
-                />
+              <div className="flex justify-between">
+                <button
+                  onClick={() => currentScene > 0 && handleSceneChange(currentScene - 1)}
+                  disabled={currentScene === 0}
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    currentScene === 0
+                      ? 'bg-[#415A77] opacity-50 cursor-not-allowed'
+                      : 'bg-[#415A77] hover:bg-[#778DA9]'
+                  }`}
+                >
+                  <span className="text-[#E0E1DD] text-sm">Previous Scene</span>
+                </button>
+                
+                <button
+                  onClick={() => currentScene < scenes.length - 1 && handleSceneChange(currentScene + 1)}
+                  disabled={currentScene === scenes.length - 1}
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    currentScene === scenes.length - 1
+                      ? 'bg-[#415A77] opacity-50 cursor-not-allowed'
+                      : 'bg-[#415A77] hover:bg-[#778DA9]'
+                  }`}
+                >
+                  <span className="text-[#E0E1DD] text-sm">Next Scene</span>
+                </button>
               </div>
-            </div>
-            <div className="flex justify-between">
-              <button
-                onClick={() => currentScene > 0 && handleSceneChange(currentScene - 1)}
-                disabled={currentScene === 0}
-                className={`px-4 py-2 rounded-lg transition-colors ${
-                  currentScene === 0
-                    ? 'bg-[#415A77] opacity-50 cursor-not-allowed'
-                    : 'bg-[#415A77] hover:bg-[#778DA9]'
-                }`}
-              >
-                <span className="text-[#E0E1DD] text-sm">Previous Scene</span>
-              </button>
-              
-              <button
-                onClick={() => currentScene < scenes.length - 1 && handleSceneChange(currentScene + 1)}
-                disabled={currentScene === scenes.length - 1}
-                className={`px-4 py-2 rounded-lg transition-colors ${
-                  currentScene === scenes.length - 1
-                    ? 'bg-[#415A77] opacity-50 cursor-not-allowed'
-                    : 'bg-[#415A77] hover:bg-[#778DA9]'
-                }`}
-              >
-                <span className="text-[#E0E1DD] text-sm">Next Scene</span>
-              </button>
             </div>
           </div>
-        </div>
+        )}
       </div>
-      <StoryPanel
-        scenes={scenes}
-        currentScene={currentScene}
-        onSceneChange={handleSceneChange}
-        isOpen={isStoryPanelOpen}
-        onToggle={() => setIsStoryPanelOpen(!isStoryPanelOpen)}
-      />
+      
+      {!isFullscreen && (
+        <StoryPanel
+          scenes={scenes}
+          currentScene={currentScene}
+          onSceneChange={handleSceneChange}
+          isOpen={isStoryPanelOpen}
+          onToggle={() => setIsStoryPanelOpen(!isStoryPanelOpen)}
+        />
+      )}
     </div>
   );
 }

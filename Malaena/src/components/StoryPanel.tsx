@@ -36,7 +36,7 @@ export function StoryPanel({ scenes, currentScene, onSceneChange, isOpen, onTogg
       </button>
 
       <div className={`
-        fixed top-0 right-0 h-full w-80 bg-[#1B263B] border-l border-[#415A77] z-40 transform transition-transform duration-300 ease-in-out
+        fixed top-0 right-0 h-full w-96 bg-[#1B263B] border-l border-[#415A77] z-40 transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : 'translate-x-full'}
       `}>
         <div className="flex flex-col h-full">
@@ -113,7 +113,7 @@ export function StoryPanel({ scenes, currentScene, onSceneChange, isOpen, onTogg
       </div>
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-30"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30"
           onClick={onToggle}
         />
       )}

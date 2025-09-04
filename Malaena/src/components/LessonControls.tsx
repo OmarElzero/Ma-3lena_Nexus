@@ -38,7 +38,6 @@ export function LessonControls({
   return (
     <div className="absolute bottom-4 left-4 right-4 bg-black bg-opacity-70 rounded-lg p-4">
       <div className="flex items-center justify-between">
-        {/* Left Controls */}
         <div className="flex items-center space-x-3">
           <button
             onClick={onPlayPause}
@@ -73,8 +72,6 @@ export function LessonControls({
             <RotateCw className="w-5 h-5" />
           </button>
         </div>
-
-        {/* Center - Zoom Controls */}
         <div className="flex items-center space-x-2">
           <button
             onClick={() => onZoomChange(Math.max(50, zoom - 10))}
@@ -94,8 +91,6 @@ export function LessonControls({
             <ZoomIn className="w-4 h-4 text-[#E0E1DD]" />
           </button>
         </div>
-
-        {/* Right Controls */}
         <div className="flex items-center space-x-3">
           <button
             onClick={onFullscreenToggle}

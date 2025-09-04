@@ -12,6 +12,7 @@ const sceneModels: Record<string, string> = {
   pyramid: '/models/pyramid.glb',
   atom: '/models/atom.glb',
   dna: '/models/dna.glb',
+  'solar-system': '/models/solar_system.glb',
 };
 
 function Model({ url, isRotating }: { url: string; isRotating: boolean }) {

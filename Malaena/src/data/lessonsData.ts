@@ -26,7 +26,7 @@ interface Scene {
           id: 2,
           title: 'The Great Pyramid Construction',
           content: 'The Great Pyramid of Giza, built around 2580-2560 BCE, was constructed using over 2.3 million stone blocks. Each block weighed between 2.5 to 15 tons. The precision of its construction continues to amaze engineers and archaeologists today.',
-          sceneType: 'atom'
+          sceneType: 'dna'
         },
         {
           id: 3,
@@ -44,13 +44,13 @@ interface Scene {
           id: 1,
           title: 'Introduction to Atomic Structure',
           content: 'Atoms are the fundamental building blocks of matter. They consist of a nucleus containing protons and neutrons, surrounded by electrons in orbital shells. Understanding atomic structure is crucial for comprehending quantum mechanics.',
-          sceneType: 'atom'
+          sceneType: 'dna'
         },
         {
           id: 2,
           title: 'Electron Orbitals and Energy Levels',
           content: 'Electrons exist in specific energy levels or orbitals around the nucleus. These orbitals have distinct shapes and energy states. When electrons jump between energy levels, they emit or absorb photons of specific wavelengths.',
-          sceneType: 'atom'
+          sceneType: 'dna'
         },
         {
           id: 3,
