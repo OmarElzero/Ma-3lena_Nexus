@@ -1,0 +1,43 @@
+{
+  "tools": [
+    {
+      "name": "extract_scenes",
+      "description": "Extracts scenes from educational content for 3D visualization",
+      "run_config": {
+        "type": "gemini",
+        "api_key": "${GEMINI_API_KEY}",
+        "model": "gemini-1.5-pro",
+        "temperature": 0.2,
+        "system_prompt": "You are an expert at analyzing educational content and extracting scenes that can be visualized in 3D. For the given educational text, extract 1-3 key scenes that would help students visualize the concepts. Each scene should be descriptive enough to be turned into a 3D model.",
+        "prompt_template": "Educational text: {text}\nDomain: {domain}\nAudience: {audience}\n\nExtract 1-3 key scenes from this educational content that would be valuable to visualize in 3D for the specified audience. Each scene should help illustrate an important concept from the text.\n\nFor each scene provide:\n1. A short name (5 words max)\n2. A detailed description (2-3 sentences)\n\nFormat your response as a JSON array of objects with 'name' and 'description' keys. Example:\n[\n  {\n    \"name\": \"Cell Membrane Structure\",\n    \"description\": \"A detailed cross-section of a cell membrane showing the phospholipid bilayer with embedded proteins. The membrane should show both channel and receptor proteins with the extracellular and intracellular sides clearly differentiated.\"\n  }\n]"
+      }
+    },
+    {
+      "name": "refine_prompt",
+      "description": "Refines scene descriptions into detailed prompts for 3D model generation",
+      "run_config": {
+        "type": "gemini",
+        "api_key": "${GEMINI_API_KEY}",
+        "model": "gemini-1.5-pro",
+        "temperature": 0.3,
+        "system_prompt": "You are an expert at creating detailed prompts for 3D model generation. Your task is to refine scene descriptions into detailed prompts that can be used to generate accurate and educational 3D models.",
+        "prompt_template": "Scene Name: {name}\nScene Description: {description}\nDomain: {domain}\nAudience: {audience}\n\nRefine this scene description into a detailed prompt for 3D model generation. Focus on clarity, specific details, and educational value. The prompt should be detailed enough for an AI to generate an accurate 3D model.\n\nConsiderations for audience '{audience}':\n- Kids: Simple, colorful, engaging visuals with basic labels\n- Teens: More detailed models with clear educational labels\n- College: Accurate scientific models with proper terminology\n- Professional: Highly detailed models with precise measurements and annotations\n\nProvide your refined prompt as a single paragraph."
+      }
+    },
+    {
+      "name": "generate_3d",
+      "description": "Generates 3D models from refined prompts",
+      "run_config": {
+        "type": "modelslab",
+        "api_key": "${MODELSLAB_API_KEY}",
+        "format": "glb",
+        "style": "realistic",
+        "prompt_template": "{prompt}"
+      }
+    }
+  ],
+  "environment": {
+    "GEMINI_API_KEY": "",
+    "MODELSLAB_API_KEY": ""
+  }
+}
