@@ -1,7 +1,13 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { DashboardStats } from '../components/DashboardStats';
 
-export default function dashboard() {
-  return (
-    <div>dashboard</div>
-  )
+export function Dashboard() {
+  const navigate = useNavigate();
+
+  const handleNavigateToCategories = () => {
+    navigate('/categories');
+  };
+
+  return <DashboardStats onNavigateToCategories={handleNavigateToCategories} />;
 }
