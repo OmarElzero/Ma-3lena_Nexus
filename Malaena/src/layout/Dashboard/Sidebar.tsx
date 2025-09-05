@@ -14,7 +14,7 @@ export function Sidebar({ isOpen, onToggle, currentView }: SidebarProps) {
     { 
       icon: <Home className="w-5 h-5" />, 
       label: 'Dashboard', 
-      path: '/',
+      path: '/dashboard',
       active: currentView === 'dashboard' 
     },
     { 
