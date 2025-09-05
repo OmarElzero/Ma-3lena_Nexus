@@ -3,6 +3,7 @@ import { Scene3D } from "./Scene3D";
 import { StoryPanel } from "../StoryPanel";
 import { LessonControls } from "../LessonControls";
 import { ArrowLeft, List , Bot } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface Scene {
   id: number;
@@ -33,7 +34,7 @@ export function LessonViewer({
 
   const speechRef = useRef<SpeechSynthesisUtterance | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
+  const navigate = useNavigate();
   const speakText = (text: string) => {
     if ("speechSynthesis" in window) {
       window.speechSynthesis.cancel();
@@ -174,7 +175,7 @@ export function LessonViewer({
           </div>
           <div className="flex items-center gap-2">
             <button
-              // onClick={() => setIsChatOpen(!isChatOpen)}
+               onClick={() => navigate("/chatbot")} 
               className="p-2 rounded-lg hover:bg-[#415A77] transition-colors"
               title="Chatbot"
             >
