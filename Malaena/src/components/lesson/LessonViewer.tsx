@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Scene3D } from "./Scene3D";
 import { StoryPanel } from "../StoryPanel";
 import { LessonControls } from "../LessonControls";
-import { ArrowLeft, List } from "lucide-react";
+import { ArrowLeft, List , Bot } from "lucide-react";
 
 interface Scene {
   id: number;
@@ -172,12 +172,22 @@ export function LessonViewer({
               </p>
             </div>
           </div>
-          <button
-            onClick={() => setIsStoryPanelOpen(true)}
-            className="p-2 rounded-lg hover:bg-[#415A77] transition-colors"
-          >
-            <List className="w-6 h-6 text-[#E0E1DD]" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              // onClick={() => setIsChatOpen(!isChatOpen)}
+              className="p-2 rounded-lg hover:bg-[#415A77] transition-colors"
+              title="Chatbot"
+            >
+              <Bot className="w-6 h-6 text-[#E0E1DD]" />
+            </button>
+            <button
+              onClick={() => setIsStoryPanelOpen(true)}
+              className="p-2 rounded-lg hover:bg-[#415A77] transition-colors"
+              title="Scenes List"
+            >
+              <List className="w-6 h-6 text-[#E0E1DD]" />
+            </button>
+          </div>
         </div>
       )}
       <div

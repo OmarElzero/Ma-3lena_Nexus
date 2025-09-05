@@ -55,23 +55,17 @@ export function Layout({ children }: LayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-[#0D1B2A] flex">
-      {/* Sidebar */}
+    <div className="min-h-screen  bg-[#0D1B2A] flex">
       <Sidebar 
         isOpen={isSidebarOpen} 
         onToggle={toggleSidebar}
         currentView={currentView}
       />
-      
-      {/* Main Content */}
       <div className="flex-1 lg:ml-0">
-        {/* Header */}
         <Header 
           onMenuToggle={toggleSidebar}
           title={getPageTitle()}
         />
-        
-        {/* Content */}
         <main className="p-6">
           {children}
         </main>
