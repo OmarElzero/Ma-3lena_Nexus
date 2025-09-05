@@ -2,8 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { Scene3D } from "./Scene3D";
 import { StoryPanel } from "../StoryPanel";
 import { LessonControls } from "../LessonControls";
-import { ArrowLeft, List , Bot } from "lucide-react";
+import { ArrowLeft, List, Bot } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Scene {
   id: number;
@@ -175,7 +176,7 @@ export function LessonViewer({
           </div>
           <div className="flex items-center gap-2">
             <button
-               onClick={() => navigate("/chatbot")} 
+              onClick={() => navigate("/chatbot")}
               className="p-2 rounded-lg hover:bg-[#415A77] transition-colors"
               title="Chatbot"
             >
@@ -225,71 +226,81 @@ export function LessonViewer({
         {!isFullscreen && (
           <div className="w-full lg:w-[34rem] flex-1 flex flex-col bg-[#1B263B] border-t lg:border-t-0 lg:border-l lg:border-r border-[#415A77]">
             <div className="p-4 sm:p-6 flex-1 overflow-y-auto">
-              <div className="space-y-6">
-                <div>
-                  <h2 className="text-xl sm:text-2xl font-bold text-[#E0E1DD] mb-4">
-                    {currentSceneData.title}
-                  </h2>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentScene}
+                  initial={{ opacity: 0, x: 100 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -100 }}
+                  transition={{ duration: 0.6, ease: "easeInOut" }}
+                  className="space-y-6"
+                >
+                  <div>
+                    <h2 className="text-xl sm:text-2xl font-bold text-[#E0E1DD] mb-4">
+                      {currentSceneData.title}
+                    </h2>
 
-                  <div className="prose prose-invert max-w-none">
-                    <p className="text-[#E0E1DD] leading-relaxed text-base sm:text-lg">
-                      {renderHighlightedText(
-                        currentSceneData.content,
-                        highlightedText
-                      )}
-                    </p>
+                    <div className="prose prose-invert max-w-none">
+                      <p className="text-[#E0E1DD] leading-relaxed text-base sm:text-lg">
+                        {renderHighlightedText(
+                          currentSceneData.content,
+                          highlightedText
+                        )}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="bg-[#0D1B2A] rounded-lg p-4">
-                  <div className="flex justify-between text-xs sm:text-sm text-[#778DA9] mb-2">
-                    <span>Scene Progress</span>
-                    <span>
-                      {currentScene + 1} / {scenes.length}
-                    </span>
-                  </div>
-                  <div className="w-full bg-[#415A77] rounded-full h-2">
-                    <div
-                      className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-500"
-                      style={{
-                        width: `${((currentScene + 1) / scenes.length) * 100}%`,
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-between">
-                  <button
-                    onClick={() =>
-                      currentScene > 0 && handleSceneChange(currentScene - 1)
-                    }
-                    disabled={currentScene === 0}
-                    className={`px-3 sm:px-4 py-2 rounded-lg transition-colors ${
-                      currentScene === 0
-                        ? "bg-[#415A77] opacity-50 cursor-not-allowed"
-                        : "bg-[#415A77] hover:bg-[#778DA9]"
-                    }`}
-                  >
-                    <span className="text-[#E0E1DD] text-xs sm:text-sm">
-                      Previous Scene
-                    </span>
-                  </button>
+                </motion.div>
+              </AnimatePresence>
 
-                  <button
-                    onClick={() =>
-                      currentScene < scenes.length - 1 &&
-                      handleSceneChange(currentScene + 1)
-                    }
-                    disabled={currentScene === scenes.length - 1}
-                    className={`px-3 sm:px-4 py-2 rounded-lg transition-colors ${
-                      currentScene === scenes.length - 1
-                        ? "bg-[#415A77] opacity-50 cursor-not-allowed"
-                        : "bg-[#415A77] hover:bg-[#778DA9]"
-                    }`}
-                  >
-                    <span className="text-[#E0E1DD] text-xs sm:text-sm">
-                      Next Scene
-                    </span>
-                  </button>
+              <div className="bg-[#0D1B2A] rounded-lg p-4 mt-6">
+                <div className="flex justify-between text-xs sm:text-sm text-[#778DA9] mb-2">
+                  <span>Scene Progress</span>
+                  <span>
+                    {currentScene + 1} / {scenes.length}
+                  </span>
                 </div>
+                <div className="w-full bg-[#415A77] rounded-full h-2">
+                  <div
+                    className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-500"
+                    style={{
+                      width: `${((currentScene + 1) / scenes.length) * 100}%`,
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="flex justify-between mt-6">
+                <button
+                  onClick={() =>
+                    currentScene > 0 && handleSceneChange(currentScene - 1)
+                  }
+                  disabled={currentScene === 0}
+                  className={`px-3 sm:px-4 py-2 rounded-lg transition-colors ${
+                    currentScene === 0
+                      ? "bg-[#415A77] opacity-50 cursor-not-allowed"
+                      : "bg-[#415A77] hover:bg-[#778DA9]"
+                  }`}
+                >
+                  <span className="text-[#E0E1DD] text-xs sm:text-sm">
+                    Previous Scene
+                  </span>
+                </button>
+
+                <button
+                  onClick={() =>
+                    currentScene < scenes.length - 1 &&
+                    handleSceneChange(currentScene + 1)
+                  }
+                  disabled={currentScene === scenes.length - 1}
+                  className={`px-3 sm:px-4 py-2 rounded-lg transition-colors ${
+                    currentScene === scenes.length - 1
+                      ? "bg-[#415A77] opacity-50 cursor-not-allowed"
+                      : "bg-[#415A77] hover:bg-[#778DA9]"
+                  }`}
+                >
+                  <span className="text-[#E0E1DD] text-xs sm:text-sm">
+                    Next Scene
+                  </span>
+                </button>
               </div>
             </div>
           </div>
