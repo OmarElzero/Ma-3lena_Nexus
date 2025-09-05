@@ -7,6 +7,7 @@ import { Lesson } from "./pages/lesson";
 import Landing from "./pages/landing";
 import Login from "./pages/auth/login";
 import Signup from "./pages/auth/signup";
+import { ChatbotPage } from "./pages/ChatbotPage";
 function App() {
   return (
     <Router>
@@ -39,6 +40,7 @@ function App() {
           }
         />
         <Route path="/lesson/:courseId" element={<Lesson />} />
+        <Route path="/chatbot" element={<ChatbotPage />} />
       </Routes>
     </Router>
   );
