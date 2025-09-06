@@ -1,7 +1,8 @@
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
-import { Suspense, useRef } from 'react';
+import { Suspense, useRef, useState } from 'react';
 import * as THREE from 'three';
+import { AudioManager } from './AudioManager';
 interface Scene3DProps {
   sceneType: 'pyramid' | 'atom' | 'dna' | 'solar-system';
   isRotating: boolean;
@@ -30,7 +31,7 @@ function Model({ url, isRotating }: { url: string; isRotating: boolean }) {
 
 export function Scene3D({ sceneType, isRotating, zoom }: Scene3DProps) {
   const modelUrl = sceneModels[sceneType] || sceneModels['pyramid'];
-
+  const [isMuted, setIsMuted] = useState(false);
   return (
     <div className="w-full h-full bg-white rounded-xl overflow-hidden">
       <Canvas
@@ -51,6 +52,12 @@ export function Scene3D({ sceneType, isRotating, zoom }: Scene3DProps) {
           <Model url={modelUrl} isRotating={isRotating} />
         </Suspense>
       </Canvas>
+      <AudioManager
+        sceneType={sceneType}
+        isPlaying={true}
+        isMuted={isMuted}
+        onMuteToggle={() => setIsMuted(!isMuted)}
+      />
     </div>
   );
 }

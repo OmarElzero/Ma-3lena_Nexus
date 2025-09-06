@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Scene3D } from "./Scene3D";
 import { StoryPanel } from "../StoryPanel";
 import { LessonControls } from "../LessonControls";
-import { ArrowLeft, List, Bot } from "lucide-react";
+import { ArrowLeft, List, Bot, Bookmark } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -32,7 +32,7 @@ export function LessonViewer({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [zoom, setZoom] = useState(100);
   const [highlightedText, setHighlightedText] = useState("");
-
+  const [isSaved, setIsSaved] = useState(false);
   const speechRef = useRef<SpeechSynthesisUtterance | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -92,7 +92,9 @@ export function LessonViewer({
       speakText(scenes[currentScene].content);
     }
   };
-
+  const handleSaveLesson = () => {
+    setIsSaved(!isSaved);
+  };
   const handleMuteToggle = () => {
     setIsMuted(!isMuted);
     if (speechRef.current) {
@@ -181,6 +183,17 @@ export function LessonViewer({
               title="Chatbot"
             >
               <Bot className="w-6 h-6 text-[#E0E1DD]" />
+            </button>
+            <button
+              onClick={handleSaveLesson}
+              className="hidden md:block p-2 rounded-lg hover:bg-[#415A77] transition-colors"
+              title={isSaved ? "Unsave Lesson" : "Save Lesson"}
+            >
+              <Bookmark
+                className="w-6 h-6"
+                stroke="#E0E1DD"
+                fill={isSaved ? "#E0E1DD" : "none"}
+              />
             </button>
             <button
               onClick={() => setIsStoryPanelOpen(true)}

@@ -25,7 +25,7 @@ export function Sidebar({ isOpen, onToggle, currentView }: SidebarProps) {
     },
     { 
       icon: <BarChart3 className="w-5 h-5" />, 
-      label: 'Progress', 
+      label: 'Saved Courses', 
       path: null,
       active: false 
     },
