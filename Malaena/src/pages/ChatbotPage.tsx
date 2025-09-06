@@ -9,6 +9,8 @@ import {
   MessageCircle,
   Star,
   Volume2,
+  Copy,
+  Reply,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Scene3D } from "../components/lesson/Scene3D";
@@ -158,10 +160,10 @@ export function ChatbotPage() {
             </div>
             <div>
               <h1 className="text-xl font-bold text-[#E0E1DD] tracking-tight">
-                Neural Learning Assistant
+              AI Learning Assistant
               </h1>
               <p className="text-sm text-[#778DA9] font-medium">
-                Advanced AI • Interactive Learning
+                Interactive 3D visualization
               </p>
             </div>
           </div>
@@ -323,6 +325,21 @@ export function ChatbotPage() {
                               title="Read aloud"
                             >
                               <Volume2 className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() =>
+                                navigator.clipboard.writeText(message.text)
+                              }
+                              className="text-[#778DA9] hover:text-[#E0E1DD] transition"
+                              title="Copy text"
+                            >
+                              <Copy className="w-4 h-4" />
+                            </button>
+                            <button
+                              className="text-[#778DA9] hover:text-[#E0E1DD] transition"
+                              title="Reply"
+                            >
+                              <Reply className="w-4 h-4" />
                             </button>
                           </div>
                         </div>
