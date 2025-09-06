@@ -119,7 +119,7 @@ export function DashboardStats({ onNavigateToCategories }: DashboardStatsProps) 
       <div className="bg-gradient-to-r from-[#1B263B] to-[#415A77] rounded-xl p-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-[#E0E1DD] mb-2">Welcome back, Ahmed!</h1>
+            <h1 className="text-3xl font-bold text-[#E0E1DD] mb-2">Welcome back, Amr!</h1>
             <p className="text-[#778DA9] text-lg">Ready to continue your 3D learning journey?</p>
           </div>
           <div className="hidden md:block">

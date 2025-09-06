@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { CategoriesGrid } from '../components/CategoriesGrid';
+import { CategoriesGrid } from '../components/category/CategoriesGrid';
 
 export function Categories() {
   const navigate = useNavigate();

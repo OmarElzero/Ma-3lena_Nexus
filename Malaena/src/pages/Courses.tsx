@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { CoursesGrid } from '../components/CoursesGrid';
+import { CoursesGrid } from '../components/courses/CoursesGrid';
 import { coursesData } from '../data/coursesData';
 
 export function Courses() {

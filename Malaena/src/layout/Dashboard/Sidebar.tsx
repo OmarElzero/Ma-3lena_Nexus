@@ -49,7 +49,7 @@ export function Sidebar({ isOpen, onToggle, currentView }: SidebarProps) {
       
       {/* Sidebar */}
       <div className={`
-        fixed top-0 left-0 h-screen bg-[#1B263B] border-r border-[#415A77] z-50 transition-transform duration-300 ease-in-out
+        fixed top-0 left-0 h-screen lg:h-auto  overflow-y-auto bg-[#1B263B] border-r border-[#415A77] z-50 transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         lg:translate-x-0 lg:static lg:z-auto
         w-64
