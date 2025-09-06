@@ -10,14 +10,24 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@lottiefiles/react-lottie-player": "^3.6.0",
     "@tailwindcss/vite": "^4.1.12",
     "lottie-react": "^2.4.1",
+=======
+    "@react-three/drei": "^10.7.4",
+    "@react-three/fiber": "^9.3.0",
+    "@tailwindcss/vite": "^4.1.12",
+    "@types/three": "^0.179.0",
+    "framer-motion": "^12.23.12",
+>>>>>>> e985c840876101d4dcd6958bbbcf383c472a52ac
     "lucide-react": "^0.542.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.8.2",
-    "tailwindcss": "^4.1.12"
+    "react-text-to-speech": "^2.1.2",
+    "tailwindcss": "^4.1.12",
+    "three": "^0.180.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
