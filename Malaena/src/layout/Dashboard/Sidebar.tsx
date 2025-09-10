@@ -11,30 +11,37 @@ export function Sidebar({ isOpen, onToggle, currentView }: SidebarProps) {
   const navigate = useNavigate();
 
   const menuItems = [
-    { 
-      icon: <Home className="w-5 h-5" />, 
-      label: 'Dashboard', 
+    {
+      icon: <Home className="w-5 h-5" />,
+      label: 'Dashboard',
       path: '/dashboard',
-      active: currentView === 'dashboard' 
+      active: currentView === 'dashboard'
     },
-    { 
-      icon: <Grid3X3 className="w-5 h-5" />, 
-      label: 'Browse Categories', 
+    {
+      icon: <Grid3X3 className="w-5 h-5" />,
+      label: 'Browse Categories',
       path: '/categories',
-      active: currentView === 'categories' || currentView === 'courses' 
+      active: currentView === 'categories' || currentView === 'courses'
     },
-    { 
-      icon: <BarChart3 className="w-5 h-5" />, 
-      label: 'Saved Courses', 
-      path: null,
-      active: false 
+    {
+      icon: <BarChart3 className="w-5 h-5" />,
+      label: 'Saved Courses',
+      path: '/saved-courses',
+      active: currentView === 'saved-courses'
     },
-    { 
-      icon: <Settings className="w-5 h-5" />, 
-      label: 'Settings', 
-      path: null,
-      active: false 
+    {
+      icon: <User className="w-5 h-5" />,
+      label: 'Profile',
+      path: '/profile',
+      active: currentView === 'profile'
     },
+    {
+      icon: <Settings className="w-5 h-5" />,
+      label: 'Settings',
+      path: '/setting',
+      active: currentView === 'settings'
+    },
+
   ];
 
   return (

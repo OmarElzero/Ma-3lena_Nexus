@@ -23,28 +23,22 @@ export function Layout({ children }: LayoutProps) {
     if (path === '/categories') return 'categories';
     if (path.startsWith('/categories/')) return 'courses';
     if (path.startsWith('/lesson/')) return 'lesson';
+    if (path === '/profile') return 'profile';
+    if (path === '/setting') return 'setting'; // ✅ match route
     return 'dashboard';
   };
 
   const getPageTitle = () => {
     const path = location.pathname;
-    const pathParts = path.split('/');
-
     if (path === '/') return 'Dashboard';
     if (path === '/categories') return 'Browse Categories';
-    
-    if (path.startsWith('/categories/')) {
-      const categoryId = pathParts[2];
-      return coursesData[categoryId]?.name || 'Courses';
-    }
-    
-    if (path.startsWith('/lesson/')) {
-      const courseId = pathParts[2];
-      return lessonsData[courseId]?.title || 'Lesson';
-    }
-    
+    if (path.startsWith('/categories/')) return coursesData[path.split('/')[2]]?.name || 'Courses';
+    if (path.startsWith('/lesson/')) return lessonsData[path.split('/')[2]]?.title || 'Lesson';
+    if (path === '/profile') return 'Profile';
+    if (path === '/setting') return 'Setting'; // ✅ added
     return 'Dashboard';
   };
+
 
   const currentView = getCurrentView();
   const isLessonView = currentView === 'lesson';
@@ -56,17 +50,17 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen  bg-[#0D1B2A] flex">
-      <Sidebar 
-        isOpen={isSidebarOpen} 
+      <Sidebar
+        isOpen={isSidebarOpen}
         onToggle={toggleSidebar}
         currentView={currentView}
       />
       <div className="flex-1 lg:ml-0">
-        <Header 
+        <Header
           onMenuToggle={toggleSidebar}
           title={getPageTitle()}
         />
-        <main className="p-6">
+        <main className="p-6 ">
           {children}
         </main>
       </div>
